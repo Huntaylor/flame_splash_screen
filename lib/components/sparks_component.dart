@@ -53,10 +53,11 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
   @override
   Future<void> onLoad() {
     final flutterPosition = game.flutterLogoComponent.position;
+    final bottomPosition = flutterPosition.y * 1.25;
     positions = [
-      Vector2(flutterPosition.x / 1.45, flutterPosition.y),
-      Vector2(flutterPosition.x * 1.2, flutterPosition.y * 1.22),
-      Vector2(flutterPosition.x, flutterPosition.y * 1.22),
+      Vector2(flutterPosition.x / 1.45, bottomPosition),
+      Vector2(flutterPosition.x * 1.2, bottomPosition),
+      Vector2(flutterPosition.x, bottomPosition),
     ];
     delayTimer = TimerComponent(
       period: .50,

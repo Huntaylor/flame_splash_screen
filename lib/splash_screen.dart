@@ -111,7 +111,7 @@ class NewSplashScreen extends FlameGame {
 
     world.add(flutterLogoComponent);
     // world.addAll([
-    //   fireComponent,
+    //   flutterLogoComponent,
     //   hideFireComponent,
     // ]);
 
