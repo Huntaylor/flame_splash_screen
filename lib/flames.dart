@@ -2,10 +2,10 @@ import 'dart:math';
 
 import 'package:flame/components.dart';
 import 'package:flame/particles.dart';
-import 'package:flame_splash_screen/splash_screen.dart';
+import 'package:new_flame_splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
-class Flames extends CircleComponent with HasGameReference<FlameSplashScreen> {
+class Flames extends CircleComponent with HasGameReference<NewSplashScreen> {
   Flames({super.position, super.priority = 3, super.anchor = Anchor.center})
     : super();
 

@@ -1,4 +1,4 @@
-# flame_splash_screen
+# new_flame_splash_screen
 
 A new Flutter project.
 

@@ -1,6 +1,6 @@
 {
-    "name": "flame_splash_screen",
-    "short_name": "flame_splash_screen",
+    "name": "new_flame_splash_screen",
+    "short_name": "new_flame_splash_screen",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

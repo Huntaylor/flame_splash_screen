@@ -1,23 +1,34 @@
+import 'dart:async';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
-import 'package:flame_splash_screen/splash_screen.dart';
+import 'package:new_flame_splash_screen/components/sparks_component.dart';
+import 'package:new_flame_splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
 class FlutterLogoComponent extends PositionComponent
-    with HasGameReference<FlameSplashScreen> {
+    with HasGameReference<NewSplashScreen> {
   FlutterLogoComponent({
+    required Vector2 size,
     required Vector2 position,
-  }) : super(
-         position: position,
-       );
+  }) : super(position: position, anchor: Anchor.center, size: size);
+
+  @override
+  FutureOr<void> onLoad() {
+    final sparksPosition = position.clone();
+    add(
+      Sparks(
+        position: sparksPosition,
+      ),
+    );
+    return super.onLoad();
+  }
 
   @override
   void render(Canvas canvas) {
     canvas.save();
-    canvas.translate((202.0 - 166.0) / 2.0, 0.0);
 
     final Paint lightPaint = Paint()..color = const Color(0xFF54C5F8);
     final Paint mediumPaint = Paint()..color = const Color(0xFF29B6F6);

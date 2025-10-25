@@ -3,12 +3,12 @@ import 'dart:math';
 import 'dart:ui' as ui;
 
 import 'package:flame/components.dart';
-import 'package:flame_splash_screen/splash_screen.dart';
+import 'package:new_flame_splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 import 'dart:ui';
 
 class FlameLogoComponent extends PositionComponent
-    with HasGameReference<FlameSplashScreen> {
+    with HasGameReference<NewSplashScreen> {
   FlameLogoComponent({
     required Vector2 position,
     required Vector2 size,
@@ -78,7 +78,6 @@ class FlameLogoComponent extends PositionComponent
     gradientPaint2 = Paint()..shader = gradient2;
     gradientPaint3 = Paint()..shader = gradient3;
 
-    debugMode = true;
     return super.onLoad();
   }
 
