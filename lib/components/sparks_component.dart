@@ -6,7 +6,7 @@ import 'package:new_flame_splash_screen/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
-  Sparks({super.position, super.priority = 3, super.anchor = Anchor.center})
+  Sparks({super.position, super.priority = 10, super.anchor = Anchor.center})
     : super();
 
   final rnd = Random();
@@ -17,20 +17,21 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
 
   late TimerComponent sparksTimer;
   late TimerComponent delayTimer;
+  late TimerComponent fasterTimer;
+
+  final sparksPaint = Paint();
   var fireParticles = false;
 
   var index = 0;
 
   void loadParticles() {
-    Vector2 speed = getConsistentSpeed();
-
     final particleSystem = ParticleSystemComponent(
-      particle: getSparksParticleComponent(speed: speed),
+      particle: getSparksParticleComponent(),
     );
 
     game.world.addAll(
       [
-        particleSystem..priority = particleLayerPriority1,
+        particleSystem..priority = priority,
       ],
     );
   }
@@ -51,12 +52,15 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
 
   @override
   Future<void> onLoad() {
+    final flutterPosition = game.flutterLogoComponent.position;
     positions = [
-      Vector2(632.0, 430.5),
-      Vector2(690.0, 430.5),
+      Vector2(flutterPosition.x / 1.45, flutterPosition.y),
+      Vector2(flutterPosition.x * 1.2, flutterPosition.y * 1.22),
+      Vector2(flutterPosition.x, flutterPosition.y * 1.22),
     ];
     delayTimer = TimerComponent(
       period: .50,
+      autoStart: true,
       repeat: true,
       onTick: () {
         fireParticles = !fireParticles;
@@ -65,18 +69,36 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
     );
     sparksTimer = TimerComponent(
       period: .25,
+      autoStart: false,
       repeat: false,
       onTick: () {
         moveSparks();
         loadParticles();
       },
     );
+    fasterTimer = TimerComponent(
+      period: .20,
+      repeat: false,
+      autoStart: false,
+      onTick: () {
+        moveSparks();
+        loadParticles();
+      },
+    );
+
     return super.onLoad();
   }
 
   void moveSparks() {
-    if (index > 1) {
-      index = 0;
+    if (index >= positions.length - 1) {
+      position = positions[index];
+      delayTimer.timer.stop();
+      sparksTimer.timer.stop();
+      return;
+    }
+
+    if (index == 1) {
+      fasterTimer.timer.start();
     }
     position = positions[index];
     index++;
@@ -90,6 +112,7 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
       delayTimer.update(dt);
       if (fireParticles) {
         sparksTimer.update(dt);
+        fasterTimer.update(dt);
       }
 
       accumulatedTime -= fixedDeltaTime;
@@ -97,18 +120,16 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
     super.update(dt);
   }
 
-  Particle getSparksParticleComponent({
-    required Vector2 speed,
-  }) {
+  Particle getSparksParticleComponent() {
     return Particle.generate(
       count: 30,
-      lifespan: 1,
+      lifespan: .75,
       generator: (i) {
         final angle = rnd.nextDouble() * pi * 2;
-        final speed = 50 + rnd.nextDouble() * 150;
+        final speed = 25 + rnd.nextDouble() * 150;
         final velocity = Vector2(
           cos(angle) * speed,
-          sin(angle) * speed + 100,
+          sin(angle) * speed - 100,
         );
 
         return AcceleratedParticle(
@@ -129,11 +150,11 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
 
                   final color = Color.lerp(
                     Colors.white.withValues(alpha: alpha),
-                    Colors.amber[800]!.withValues(alpha: alpha),
+                    Colors.amberAccent[700]!.withValues(alpha: alpha),
                     progress,
                   )!;
 
-                  final paint = Paint()
+                  paint = sparksPaint
                     ..color = color
                     ..strokeWidth = 2 * trailSize
                     ..strokeCap = StrokeCap.round;
@@ -151,13 +172,5 @@ class Sparks extends CircleComponent with HasGameReference<NewSplashScreen> {
         );
       },
     );
-  }
-
-  Vector2 getConsistentSpeed() {
-    return Vector2(rnd.nextDouble() * 55 - 30, _getDirection());
-  }
-
-  double _getDirection() {
-    return -size.y - 50;
   }
 }

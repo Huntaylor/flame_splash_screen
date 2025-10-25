@@ -12,7 +12,7 @@ class FlameLogoComponent extends PositionComponent
   FlameLogoComponent({
     required Vector2 position,
     required Vector2 size,
-  }) : super(position: position, size: size, anchor: Anchor.topLeft);
+  }) : super(position: position, size: size, anchor: Anchor.center);
   late ui.Gradient gradient1;
   late ui.Gradient gradient2;
   late ui.Gradient gradient3;
@@ -23,9 +23,8 @@ class FlameLogoComponent extends PositionComponent
     ..color = const Color.fromARGB(255, 255, 197, 49);
   final Paint orangePaint = Paint()
     ..color = const Color.fromARGB(255, 255, 145, 54);
-
   final Paint greyPaint = Paint()
-    ..color = const Color.fromARGB(255, 196, 196, 196);
+    ..color = const Color.fromARGB(255, 84, 86, 90);
   late Paint gradientPaint1;
   late Paint gradientPaint2;
   late Paint gradientPaint3;
@@ -197,7 +196,7 @@ class FlameLogoComponent extends PositionComponent
         cX / 2.0830,
         cY / 1.2881,
         cX / 1.2472,
-        cY / 1.1631,
+        cY / 1.19,
         cX / 1.1174,
         cY / 1.1329,
       )

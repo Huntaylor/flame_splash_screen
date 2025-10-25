@@ -13,6 +13,7 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
@@ -40,7 +41,7 @@ class _HomePageState extends State<HomePage> {
     controller = FlameSplashController(
       fadeInDuration: Duration(seconds: 1),
       fadeOutDuration: Duration(milliseconds: 250),
-      waitDuration: Duration(seconds: 5),
+      waitDuration: Duration(seconds: 5, milliseconds: 500),
     );
   }
 
@@ -61,6 +62,7 @@ class _HomePageState extends State<HomePage> {
         },
         showAfter: (context) => GameWidget(game: game),
       ),
+      // body: GameWidget(game: game),
     );
   }
 }
